@@ -1,10 +1,12 @@
 // https://www.youtube.com/watch?v=ypRJ9ScLmco
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import AllPlayers from "./components/AllPlayers.jsx";
 import PuppyFormBar from "./components/PuppyFormBar.jsx";
 import { Transition } from "@headlessui/react";
 import {Route, Routes, Link} from "react-router-dom";
 import { useHandleResize } from './app/useHandleResize.js'
+
+import {useSelector} from "react-redux";
 
 /*Using as base for other layouts
 * Will have Puppy Form hugging the left
@@ -12,6 +14,8 @@ import { useHandleResize } from './app/useHandleResize.js'
 * Pop over when puppies are clicked*/
 function App() {
 
+    const showNav = useSelector((state) => state.showNav);
+    const isMobile = useSelector((state) => state.isMobile);
     //Video demonstrated how to implement a function to determine whether a mobile size is used
 
     useEffect (() => {
@@ -47,17 +51,16 @@ function App() {
                                 leaveFrom="translate-x-0"
                                 leaveTo="-translate-x-full"
                             >
-                                <PuppyFormBar /*showNav={showNav} *//>
+                                <PuppyFormBar />
                             </Transition>
                         }/>
                         <Route path="/all" element={
-                            <AllPlayers /*showNav={showNav} setShowNav={setShowNav}*//>
+                            <AllPlayers />
                         }/>
                     </Routes>
                 </div>
             </main>
         </>
-
     )
 }
 

@@ -7,7 +7,7 @@ const SinglePlayer = () => {
             <div>Single Player</div>
             <Popover className="relative border-2 border-amber-950">
                 {/*seems like I'm gonna have to put the photos here*/}
-                <img src="/vite.svg" alt="" />
+                {/*<img src="/vite.svg" alt="" />*/}
                 <Popover.Button>Solutions</Popover.Button>
 
                 {/*this is what pops open after the "Solutions" is clicked*/}
