@@ -4,9 +4,10 @@ import AllPlayers from "./components/AllPlayers.jsx";
 import PuppyFormBar from "./components/PuppyFormBar.jsx";
 import { Transition } from "@headlessui/react";
 import {Route, Routes, Link} from "react-router-dom";
-import { useHandleResize } from './app/useHandleResize.js'
 
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {hide, show} from "./app/navSlice.js";
+import {setFalse, setTrue} from "./app/mobileSlice.js";
 
 /*Using as base for other layouts
 * Will have Puppy Form hugging the left
@@ -14,24 +15,35 @@ import {useSelector} from "react-redux";
 * Pop over when puppies are clicked*/
 function App() {
 
+    const dispatch = useDispatch();
     const showNav = useSelector((state) => state.showNav);
     const isMobile = useSelector((state) => state.isMobile);
     //Video demonstrated how to implement a function to determine whether a mobile size is used
 
+    const handleResize = () =>{
+
+        if (innerWidth <= 640) {
+            dispatch(hide());
+            dispatch(setTrue());
+        } else {
+            dispatch(show());
+            dispatch(setFalse());
+        }
+    }
     useEffect (() => {
         if (typeof window !== undefined) {
-            addEventListener("resize", useHandleResize);
+            addEventListener("resize", handleResize);
         }
 
         return () => {
-            removeEventListener("resize", useHandleResize);
+            removeEventListener("resize", handleResize);
         }
     }, []);
     return (
         <>
-            <nav>
+            <nav className="border-8 border-green-900">
                 <Link to="/form">Puppy Form</Link>
-                <Link to="/all">All PLayers</Link>
+                <Link to="/allplayers">All PLayers</Link>
             </nav>
 
             {/* Similar to <div id="main"/>? */}
@@ -51,10 +63,10 @@ function App() {
                                 leaveFrom="translate-x-0"
                                 leaveTo="-translate-x-full"
                             >
-                                <PuppyFormBar />
+                                <PuppyFormBar showNav={showNav}/>
                             </Transition>
                         }/>
-                        <Route path="/all" element={
+                        <Route path="/allplayers/*" element={
                             <AllPlayers />
                         }/>
                     </Routes>
