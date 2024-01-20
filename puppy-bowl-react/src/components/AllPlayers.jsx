@@ -2,6 +2,7 @@
 // video reference
 import { useState, useEffect, Fragment} from "react";
 import SinglePlayer from "./SinglePlayer.jsx";
+import {Route, Routes} from "react-router-dom";
 
 /*Will appear on the right as a gallery of photos*/
 const AllPlayers = () => {
@@ -9,6 +10,10 @@ const AllPlayers = () => {
         <>
             <div className="inline-flex border-2 border-black">
                 All Players
+
+                <Routes>
+                    <Route path="/single" element={<SinglePlayer/>}/>
+                </Routes>
             </div>
         </>
     )
