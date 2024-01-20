@@ -6,7 +6,7 @@ import { Transition } from "@headlessui/react";
 import {Route, Routes, Link} from "react-router-dom";
 
 import {useDispatch, useSelector} from "react-redux";
-import {hide, show} from "./app/navSlice.js";
+import {hide, setNav, show} from "./app/navSlice.js";
 import {setFalse, setTrue} from "./app/mobileSlice.js";
 
 /*Using as base for other layouts
@@ -41,36 +41,23 @@ function App() {
     }, []);
     return (
         <>
-            <nav className="border-8 border-green-900">
+            <nav className="inline-flex border-8 border-green-900 gap-2 pl-4 md:px-5">
                 <Link to="/form">Puppy Form</Link>
                 <Link to="/allplayers">All PLayers</Link>
+                <button className="text-gray-700 cursor-pointer" onClick={() => dispatch(setNav())}>Button</button>
             </nav>
 
             {/* Similar to <div id="main"/>? */}
-            <main className={`pt-16 transition-all duration-[400ms] ${showNav && !isMobile ? "pl-56" : ""}`}>
-                <div className="px-4 md:px-16">
-                    <Routes>
-                        <Route path="/form" element={
-                            <Transition
-                                //If I'm understanding this correctly this is what allows me
-                                // to toggle a panel back and forth.
-                                as={Fragment}
-                                show={showNav}
-                                enter="transform transition duration-[400ms]"
-                                enterFrom="-translate-x-full"
-                                enterTo="translate-x-0"
-                                leave="transform duration-[400ms] transition ease-in-out"
-                                leaveFrom="translate-x-0"
-                                leaveTo="-translate-x-full"
-                            >
-                                <PuppyFormBar showNav={showNav}/>
-                            </Transition>
-                        }/>
-                        <Route path="/allplayers/*" element={
-                            <AllPlayers />
-                        }/>
-                    </Routes>
-                </div>
+            <main className="border-2 border-yellow-400 w-full h-full">
+                    <div className={`transition-all duration-[400ms] ${showNav && !isMobile ? "pl-56" : ""}`}>
+                        <Routes>
+                            <Route path="/allplayers/*" element={
+                                <div>
+                                    <AllPlayers />
+                                </div>
+                            }/>
+                        </Routes>
+                    </div>
             </main>
         </>
     )
